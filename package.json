@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "description": "Sample chat API on node server with Express",
   "main": "index.js",
+  "dependencies": {
+    "body-parser": "latest",
+    "express": "latest",
+    "log4js": "latest",
+    "flamebase-database-node": "^1.0.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
