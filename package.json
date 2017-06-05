@@ -1,0 +1,25 @@
+{
+  "name": "chat-api-node",
+  "version": "1.0.0",
+  "description": "Sample chat API on node server with Express",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "latest",
+    "express": "latest",
+    "log4js": "latest",
+    "flamebase-database-node": "^1.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flamebase/chat-api-node.git"
+  },
+  "author": "efraespada@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/flamebase/chat-api-node/issues"
+  },
+  "homepage": "https://github.com/flamebase/chat-api-node#readme"
+}
