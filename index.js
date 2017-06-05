@@ -3,6 +3,9 @@ var bodyParser =          require('body-parser');
 var FlamebaseDatabase =   require("flamebase-database-node");
 var log4js =              require('log4js');
 
+var TAG                 = "SERVER CHAT";
+var logger              = log4js.getLogger(TAG);
+
 // JSON instances
 var chats = new FlamebaseDatabase("chats", "/chats");
 chats.syncFromDatabase();
@@ -40,7 +43,6 @@ function parseRequest(req, res) {
         var message = req.body.message;
         var connection = {};     // connection element
 
-        logger.info(o);
         logger.debug("* user-agent: " + req.headers['user-agent']);
 
 
@@ -79,6 +81,11 @@ function parseRequest(req, res) {
                 case "name":
                     connection[key] = message[key];
                     logger.debug("* name: " + connection[key]);
+                    break;
+
+                case "email":
+                    connection[key] = message[key];
+                    logger.debug("* email: " + connection[key]);
                     break;
 
                 case "os":
@@ -163,7 +170,7 @@ function addContact(connection) {
     contact.token = connection.token;
     contact.os = connection.os;
     contact.name = connection.name;
-    contacts.ref[connection.id] = contact;
+    contacts.ref[connection.email] = contact;
     contacts.syncToDatabase();
     response(connection, "contact_added", null);
 }
@@ -173,7 +180,7 @@ function addContact(connection) {
  * @param connection
  */
 function addContactToGroup(connection) {
-    chats.ref[connection.group_id].members.push(connection.id);
+    chats.ref[connection.group_id].members.push(connection.email);
     chats.syncToDatabase();
     response(connection, "contact_added_to_group", null);
 }
@@ -186,7 +193,7 @@ function addContactToGroup(connection) {
 function createGroup(connection) {
     var group = {};
     group.members = [];
-    group.members.push(connection.id);
+    group.members.push(connection.email);
     group.messages = {};
     chats.ref[connection.group_id] = group;
     chats.syncToDatabase();
@@ -199,7 +206,7 @@ function createGroup(connection) {
  */
 function addMessage(connection) {
     var message = {};
-    message.author = connection.id;
+    message.author = connection.email;
     message.text = connection.message;
 
     var messageId = new Date().getTime().toString();
